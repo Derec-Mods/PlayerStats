@@ -23,7 +23,6 @@ import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -151,23 +150,18 @@ public final class Main extends JavaPlugin implements PlayerStats {
      * Setup bstats
      */
     private void setupMetrics() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                final Metrics metrics = new Metrics(pluginInstance, 15923);
-                final boolean placeholderExpansionActive;
-                if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-                    PlaceholderExpansion expansion = PlaceholderAPIPlugin
-                            .getInstance()
-                            .getLocalExpansionManager()
-                            .getExpansion("playerstats");
-                    placeholderExpansionActive = expansion != null;
-                } else {
-                    placeholderExpansionActive = false;
-                }
-                metrics.addCustomChart(new SimplePie("using_placeholder_expansion", () -> placeholderExpansionActive ? "yes" : "no"));
-            }
-        }.runTaskLaterAsynchronously(this, 200);
+        final Metrics metrics = new Metrics(pluginInstance, 15923);
+        final boolean placeholderExpansionActive;
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlaceholderExpansion expansion = PlaceholderAPIPlugin
+                    .getInstance()
+                    .getLocalExpansionManager()
+                    .getExpansion("playerstats");
+            placeholderExpansionActive = expansion != null;
+        } else {
+            placeholderExpansionActive = false;
+        }
+        metrics.addCustomChart(new SimplePie("using_placeholder_expansion", () -> placeholderExpansionActive ? "yes" : "no"));
     }
 
     @Override
