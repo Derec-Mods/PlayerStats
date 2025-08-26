@@ -14,12 +14,11 @@ import com.artemis.the.gr8.playerstats.core.msg.msgutils.LanguageKeyHandler;
 import com.artemis.the.gr8.playerstats.core.sharing.ShareManager;
 import com.artemis.the.gr8.playerstats.core.statistic.StatRequestManager;
 import com.artemis.the.gr8.playerstats.core.utils.Closable;
+import com.artemis.the.gr8.playerstats.core.utils.Metrics;
 import com.artemis.the.gr8.playerstats.core.utils.OfflinePlayerHandler;
 import com.artemis.the.gr8.playerstats.core.utils.Reloadable;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -161,7 +160,7 @@ public final class Main extends JavaPlugin implements PlayerStats {
         } else {
             placeholderExpansionActive = false;
         }
-        metrics.addCustomChart(new SimplePie("using_placeholder_expansion", () -> placeholderExpansionActive ? "yes" : "no"));
+        metrics.addCustomChart(new Metrics.SimplePie("using_placeholder_expansion", () -> placeholderExpansionActive ? "yes" : "no"));
     }
 
     @Override

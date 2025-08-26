@@ -66,36 +66,13 @@
               <pattern>com.tchristofferson</pattern>
               <shadedPattern>com.artemis.the.gr8.playerstats.lib.tchristofferson</shadedPattern>
             </relocation>
-            <relocation>
-              <pattern>org.bstats</pattern>
-              <shadedPattern>com.artemis.the.gr8.playerstats.lib.bstats</shadedPattern>
-            </relocation>
           </relocations>
           <filters>
             <filter>
               <artifact>*:*</artifact>
               <excludes>
-                <exclude>META-INF/versions/**</exclude>
-                <exclude>META-INF/maven/com.tchristofferson/**</exclude>
+                <exclude>META-INF/**</exclude>
                 <exclude>images/**</exclude>
-              </excludes>
-            </filter>
-            <filter>
-              <artifact>net.kyori:*</artifact>
-              <excludes>
-                <exclude>META-INF/**</exclude>
-              </excludes>
-            </filter>
-            <filter>
-              <artifact>com.tchristofferson:*</artifact>
-              <excludes>
-                <exclude>META-INF/**</exclude>
-              </excludes>
-            </filter>
-            <filter>
-              <artifact>org.bstats:*</artifact>
-              <excludes>
-                <exclude>META-INF/**</exclude>
               </excludes>
             </filter>
           </filters>
@@ -211,6 +188,20 @@
       <artifactId>placeholderapi</artifactId>
       <version>2.11.6</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>bstats-bukkit</artifactId>
+          <groupId>org.bstats</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>adventure-platform-bukkit</artifactId>
+          <groupId>net.kyori</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>annotations</artifactId>
+          <groupId>org.jetbrains</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
