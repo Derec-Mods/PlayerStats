@@ -13,10 +13,7 @@ import com.artemis.the.gr8.playerstats.core.listeners.JoinListener;
 import com.artemis.the.gr8.playerstats.core.msg.msgutils.LanguageKeyHandler;
 import com.artemis.the.gr8.playerstats.core.sharing.ShareManager;
 import com.artemis.the.gr8.playerstats.core.statistic.StatRequestManager;
-import com.artemis.the.gr8.playerstats.core.utils.Closable;
-import com.artemis.the.gr8.playerstats.core.utils.Metrics;
-import com.artemis.the.gr8.playerstats.core.utils.OfflinePlayerHandler;
-import com.artemis.the.gr8.playerstats.core.utils.Reloadable;
+import com.artemis.the.gr8.playerstats.core.utils.*;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
@@ -161,6 +158,9 @@ public final class Main extends JavaPlugin implements PlayerStats {
             placeholderExpansionActive = false;
         }
         metrics.addCustomChart(new Metrics.SimplePie("using_placeholder_expansion", () -> placeholderExpansionActive ? "yes" : "no"));
+
+        CommandCounter counter = CommandCounter.getInstance();
+        metrics.addCustomChart(new Metrics.AdvancedPie("commands_used_the_last_30_minutes", counter::getCommandCounts));
     }
 
     @Override

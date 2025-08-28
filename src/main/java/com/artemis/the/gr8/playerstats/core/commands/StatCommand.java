@@ -10,6 +10,7 @@ import com.artemis.the.gr8.playerstats.core.msg.OutputManager;
 import com.artemis.the.gr8.playerstats.core.statistic.PlayerStatRequest;
 import com.artemis.the.gr8.playerstats.core.statistic.ServerStatRequest;
 import com.artemis.the.gr8.playerstats.core.statistic.TopStatRequest;
+import com.artemis.the.gr8.playerstats.core.utils.CommandCounter;
 import com.artemis.the.gr8.playerstats.core.utils.EnumHandler;
 import com.artemis.the.gr8.playerstats.core.utils.OfflinePlayerHandler;
 import org.bukkit.Material;
@@ -38,6 +39,7 @@ public final class StatCommand implements CommandExecutor {
     private final ConfigHandler config;
     private final EnumHandler enumHandler;
     private final OfflinePlayerHandler offlinePlayerHandler;
+    private final CommandCounter commandCounter;
 
     public StatCommand(ThreadManager threadManager) {
         StatCommand.threadManager = threadManager;
@@ -46,6 +48,7 @@ public final class StatCommand implements CommandExecutor {
         config = ConfigHandler.getInstance();
         enumHandler = EnumHandler.getInstance();
         offlinePlayerHandler = OfflinePlayerHandler.getInstance();
+        commandCounter = CommandCounter.getInstance();
     }
 
     @Override
@@ -53,21 +56,32 @@ public final class StatCommand implements CommandExecutor {
         if (args.length == 0 ||
                 args[0].equalsIgnoreCase("help") ||
                 args[0].equalsIgnoreCase("info")) {
+            commandCounter.upHelpCommandCount();
             outputManager.sendHelp(sender);
         }
         else if (args[0].equalsIgnoreCase("examples") ||
                 args[0].equalsIgnoreCase("example")) {
+            commandCounter.upHelpCommandCount();
             outputManager.sendExamples(sender);
         }
         else {
             ArgProcessor processor = new ArgProcessor(sender, args);
             if (processor.request != null && processor.request.isValid()) {
+                countStatCommand(processor.target);
                 threadManager.startStatThread(processor.request);
             } else {
                 sendFeedback(sender, processor);
             }
         }
         return true;
+    }
+
+    private void countStatCommand(@NotNull Target target) {
+        switch (target) {
+            case PLAYER -> commandCounter.upPlayerStatCommandCount();
+            case TOP -> commandCounter.upTopStatCommandCount();
+            case SERVER -> commandCounter.upServerStatCommandCount();
+        }
     }
 
     /**

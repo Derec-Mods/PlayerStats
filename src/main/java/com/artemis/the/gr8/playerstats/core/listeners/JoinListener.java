@@ -7,8 +7,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Listens for new Players that join, and reloads PlayerStats
- * if someone joins that hasn't joined before.
+ * Listens for new Players that join and reloads PlayerStats
+ * if someone joins that hasn't joined before, to ensure
+ * their statistics are included in /stat commands.
  */
 @ApiStatus.Internal
 public class JoinListener implements Listener {

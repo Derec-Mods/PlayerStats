@@ -4,6 +4,7 @@ import com.artemis.the.gr8.playerstats.core.sharing.ShareManager;
 import com.artemis.the.gr8.playerstats.core.enums.StandardMessage;
 import com.artemis.the.gr8.playerstats.core.msg.OutputManager;
 import com.artemis.the.gr8.playerstats.core.sharing.StoredResult;
+import com.artemis.the.gr8.playerstats.core.utils.CommandCounter;
 import com.artemis.the.gr8.playerstats.core.utils.MyLogger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,10 +15,12 @@ public final class ShareCommand implements CommandExecutor {
 
     private static OutputManager outputManager;
     private static ShareManager shareManager;
+    private final CommandCounter commandCounter;
 
     public ShareCommand() {
         outputManager = OutputManager.getInstance();
         shareManager = ShareManager.getInstance();
+        commandCounter = CommandCounter.getInstance();
     }
 
     @Override
@@ -41,6 +44,7 @@ public final class ShareCommand implements CommandExecutor {
                 if (result == null) {  //at this point the only possible cause of formattedComponent being null is the request being older than 25 player-requests ago
                     outputManager.sendFeedbackMsg(sender, StandardMessage.STAT_RESULTS_TOO_OLD);
                 } else {
+                    commandCounter.upShareCommandCount();
                     outputManager.sendToAllPlayers(result.formattedValue());
                 }
             }

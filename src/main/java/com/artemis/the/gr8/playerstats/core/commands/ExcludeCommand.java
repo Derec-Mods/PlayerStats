@@ -2,6 +2,7 @@ package com.artemis.the.gr8.playerstats.core.commands;
 
 import com.artemis.the.gr8.playerstats.core.enums.StandardMessage;
 import com.artemis.the.gr8.playerstats.core.msg.OutputManager;
+import com.artemis.the.gr8.playerstats.core.utils.CommandCounter;
 import com.artemis.the.gr8.playerstats.core.utils.OfflinePlayerHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,10 +15,12 @@ public final class ExcludeCommand implements CommandExecutor {
 
     private static OutputManager outputManager;
     private final OfflinePlayerHandler offlinePlayerHandler;
+    private final CommandCounter commandCounter;
 
     public ExcludeCommand() {
         outputManager = OutputManager.getInstance();
-        this.offlinePlayerHandler = OfflinePlayerHandler.getInstance();
+        offlinePlayerHandler = OfflinePlayerHandler.getInstance();
+        commandCounter = CommandCounter.getInstance();
     }
 
     @Override
@@ -35,6 +38,7 @@ public final class ExcludeCommand implements CommandExecutor {
             }
         }
         else {
+            commandCounter.upExcludeCommandCount();
             switch (args[0]) {
                 case "add" -> {
                     if (offlinePlayerHandler.addPlayerToExcludeList(args[1])) {
