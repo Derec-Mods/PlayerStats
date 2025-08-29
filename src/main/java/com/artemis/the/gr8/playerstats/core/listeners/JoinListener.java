@@ -1,29 +1,31 @@
 package com.artemis.the.gr8.playerstats.core.listeners;
 
-import com.artemis.the.gr8.playerstats.core.multithreading.ThreadManager;
+import com.artemis.the.gr8.playerstats.core.utils.OfflinePlayerHandler;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Listens for new Players that join and reloads PlayerStats
- * if someone joins that hasn't joined before, to ensure
- * their statistics are included in /stat commands.
+ * Listens for newly joined Players and adds them to
+ * the included-players list if they haven't joined
+ * this server before
  */
 @ApiStatus.Internal
 public class JoinListener implements Listener {
 
-    private static ThreadManager threadManager;
+    private final OfflinePlayerHandler offlinePlayerHandler;
 
-    public JoinListener(ThreadManager t) {
-        threadManager = t;
+    public JoinListener() {
+        offlinePlayerHandler = OfflinePlayerHandler.getInstance();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent joinEvent) {
-        if (!joinEvent.getPlayer().hasPlayedBefore()) {
-            threadManager.startReloadThread(null);
+        Player player = joinEvent.getPlayer();
+        if (!player.hasPlayedBefore() && !offlinePlayerHandler.isExcludedPlayer(player.getUniqueId())) {
+            offlinePlayerHandler.addNewIncludedPlayer(player);
         }
     }
 }

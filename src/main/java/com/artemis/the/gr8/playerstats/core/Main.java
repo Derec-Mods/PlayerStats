@@ -50,7 +50,7 @@ public final class Main extends JavaPlugin implements PlayerStats {
         setupMetrics();
 
         //register the listener
-        Bukkit.getPluginManager().registerEvents(new JoinListener(threadManager), this);
+        Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
         
         //finish up
         this.getLogger().info("Enabled PlayerStats!");

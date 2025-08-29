@@ -67,7 +67,7 @@ public class CommandCounter {
         return commandCounts;
     }
 
-    private void resetCounts() {
+    private synchronized void resetCounts() {
         helpCommand = 0;
         excludeCommand = 0;
         shareCommand = 0;

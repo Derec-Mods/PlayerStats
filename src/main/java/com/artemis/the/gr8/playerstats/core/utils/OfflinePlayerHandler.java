@@ -5,6 +5,7 @@ import com.artemis.the.gr8.playerstats.core.config.ConfigHandler;
 import com.artemis.the.gr8.playerstats.core.multithreading.ThreadManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -94,6 +95,10 @@ public final class OfflinePlayerHandler extends YamlFileHandler {
             return true;
         }
         return false;
+    }
+
+    public void addNewIncludedPlayer(@NotNull Player player) {
+        includedPlayerUUIDs.put(player.getName(), player.getUniqueId());
     }
 
     @Contract(" -> new")
